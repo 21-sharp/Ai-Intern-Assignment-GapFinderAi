@@ -1,0 +1,13 @@
+node_modules/
+.next/
+.env.local
+.vercel
+*.log
+data/
+.gapfinder-dev.json
+.gapfinder-stop.json
+
+.vercel-global/
+*.sqlite
+*.sqlite-*
+*.db

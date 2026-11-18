@@ -1,0 +1,1334 @@
+
+PROJECT: GAPFINDER AI
+TYPE: Multi-User AI-Powered SaaS Learning Platform
+OBJECTIVE: Build a complete, secure, scalable, production-ready website from scratch.
+
+==================================================
+1. PRODUCT VISION
+==================================================
+
+Build GapFinder AI, an intelligent personalized learning
+platform that identifies what students do not understand.
+
+The application must behave like a diagnostic system
+for education.
+
+It must not function merely as an AI chatbot.
+
+CORE WORKFLOW:
+
+Student Registration
+        ↓
+Upload Study Materials
+        ↓
+Extract and Process Documents
+        ↓
+Build Syllabus Topic Map
+        ↓
+Map Previous Exam Questions
+        ↓
+Generate RAG-Based Diagnostic Quiz
+        ↓
+Evaluate Student Answers
+        ↓
+Identify Knowledge Gaps
+        ↓
+Generate Personalized Revision Plan
+        ↓
+Student Studies Weak Topics
+        ↓
+Conduct Another Test
+        ↓
+Update Knowledge Gap Report
+        ↓
+Update Revision Plan
+
+The main product output is a measurable diagnosis
+of the student's knowledge gaps.
+
+==================================================
+2. TECHNOLOGY STACK
+==================================================
+
+FRONTEND:
+- Next.js with App Router
+- React.js
+- TypeScript
+- Tailwind CSS
+- shadcn/ui
+- Recharts
+- React Hook Form
+- Zod validation
+
+BACKEND:
+- Python
+- FastAPI
+- Pydantic
+- SQLAlchemy
+- Alembic migrations
+- REST API
+- Background task processing
+
+DATABASE:
+- PostgreSQL
+- pgvector
+- Redis for caching and task queues
+- S3-compatible object storage for documents
+
+AI AND MACHINE LEARNING:
+- OpenAI API for LLM operations
+- Embedding model for semantic search
+- Retrieval-Augmented Generation (RAG)
+- PyMuPDF for PDF extraction
+- OCR support for scanned PDFs
+- Semantic similarity search
+- AI question generation
+- Answer evaluation
+- Knowledge gap analysis
+- Adaptive revision planning
+
+AUTHENTICATION:
+- Secure session or token-based authentication
+- Argon2id password hashing
+- Email verification
+- Password reset
+- Role-Based Access Control (RBAC)
+
+DEPLOYMENT:
+- Vercel for frontend
+- Render or AWS for backend
+- Managed PostgreSQL
+- Managed Redis
+- S3-compatible file storage
+- GitHub Actions for CI/CD
+- Docker for containerization
+
+Use stable, mutually compatible package versions.
+Pin dependencies and maintain lockfiles.
+
+==================================================
+3. WEBSITE DESIGN AND USER EXPERIENCE
+==================================================
+
+Create a premium, professional educational SaaS
+application.
+
+Brand name: GapFinder AI
+
+Tagline:
+"Find What You Don't Know. Fix What Matters."
+
+DESIGN REQUIREMENTS:
+
+- Modern and professional UI.
+- Responsive desktop, tablet and mobile layouts.
+- Clean dashboard with sidebar navigation.
+- Consistent typography.
+- Attractive cards and charts.
+- Light and dark themes.
+- Smooth transitions and loading states.
+- Accessible forms and navigation.
+- Clear success and error messages.
+- Skeleton loading for asynchronous operations.
+- Empty states when users have no data.
+
+Use a consistent design system.
+
+Suggested colors:
+- Primary: Indigo / Blue
+- Background: White or dark navy
+- Weak topics: Red
+- Medium topics: Amber
+- Strong topics: Green
+- Neutral information: Gray
+
+Do not use static mockup screens as substitutes
+for working application features.
+
+==================================================
+4. USER ROLES AND MULTI-USER ACCESS
+==================================================
+
+Implement a multi-tenant-capable architecture.
+
+Support these roles:
+
+1. STUDENT
+- Register and log in.
+- Upload personal learning materials.
+- Create subjects.
+- Take diagnostic tests.
+- View personal gap reports.
+- Generate revision plans.
+- Track personal progress.
+- Use the explain-topic assistant.
+- Manage personal profile and settings.
+
+2. TEACHER
+- Create classes.
+- Invite students.
+- View authorized class-level performance.
+- Identify topics that students struggle with.
+- Compare topic-level class performance.
+- View individual reports only when authorized.
+- Create and manage class assignments.
+
+3. ADMIN
+- Manage users.
+- Manage roles and permissions.
+- View system health.
+- Manage platform settings.
+- Monitor AI usage.
+- Review security events.
+- Manage abuse reports.
+- Suspend or reactivate accounts.
+
+MULTI-USER REQUIREMENTS:
+
+- Multiple students must be able to use the website
+  simultaneously.
+- Every user must have an independent account.
+- Every student must have isolated documents,
+  quizzes, answers and progress.
+- No student can access another student's information.
+- Teachers can access only their authorized classes.
+- Admin permissions must be restricted and audited.
+- Users must be able to log out from all sessions.
+- Prevent cross-account data leakage.
+
+Do not implement a single shared demo account
+as the actual user authentication system.
+
+Create separate demo accounts for each role.
+
+==================================================
+5. AUTHENTICATION AND ACCOUNT MANAGEMENT
+==================================================
+
+Implement:
+
+- Student registration.
+- Teacher registration or invitation.
+- Login.
+- Logout.
+- Email verification.
+- Forgot password.
+- Reset password.
+- Session expiration.
+- Refresh session securely if applicable.
+- Account profile.
+- Account deletion.
+- Session management.
+
+Security requirements:
+
+- Hash passwords using Argon2id.
+- Never store plain-text passwords.
+- Never expose password hashes through APIs.
+- Use secure, HttpOnly, SameSite cookies.
+- Use HTTPS in production.
+- Implement CSRF protection when using cookies.
+- Implement login rate limiting.
+- Prevent brute-force login attempts.
+- Validate email addresses.
+- Use secure password reset tokens.
+- Expire reset tokens after use.
+- Prevent user enumeration in authentication responses.
+- Apply authorization checks on the backend.
+
+==================================================
+6. MATERIAL UPLOAD SYSTEM
+==================================================
+
+Create a complete document management module.
+
+SUPPORTED FORMATS:
+- PDF
+- TXT
+- DOCX (optional extension)
+
+UPLOAD CATEGORIES:
+- Syllabus
+- Textbook
+- Class notes
+- Study material
+- Previous examination papers
+
+FUNCTIONALITY:
+
+1. Drag-and-drop file upload.
+2. Multiple document uploads.
+3. File size validation.
+4. File extension and MIME validation.
+5. Document preview.
+6. Upload progress.
+7. Processing status.
+8. Processing failure messages.
+9. Delete document.
+10. Reprocess document.
+
+DOCUMENT PIPELINE:
+
+Upload
+  ↓
+Validate file
+  ↓
+Store securely
+  ↓
+Extract text
+  ↓
+OCR if necessary
+  ↓
+Identify pages and sections
+  ↓
+Split text into chunks
+  ↓
+Generate embeddings
+  ↓
+Save vectors and metadata
+  ↓
+Mark document as processed
+
+Each document chunk must preserve:
+- User or tenant ownership.
+- Document ID.
+- Page number.
+- Section title.
+- Chunk index.
+- Source text.
+- Embedding.
+- Processing metadata.
+
+Prevent malicious uploads, path traversal,
+oversized files and unauthorized file access.
+
+==================================================
+7. SYLLABUS AND TOPIC MAPPING ENGINE
+==================================================
+
+Read the student's uploaded syllabus.
+
+Automatically identify:
+
+- Subject name.
+- Chapters.
+- Main topics.
+- Subtopics.
+- Learning objectives.
+- Topic hierarchy.
+- Exam importance.
+
+Create an interactive topic tree.
+
+Example:
+
+COMPUTER SCIENCE
+  |
+  |-- Java Programming
+  |     |-- Variables
+  |     |-- Data Types
+  |     |-- OOP
+  |     |-- Inheritance
+  |
+  |-- Database Management
+  |     |-- SQL
+  |     |-- Joins
+  |     |-- Normalization
+  |
+  |-- Operating Systems
+        |-- Processes
+        |-- Threads
+        |-- Deadlocks
+
+MAP PREVIOUS EXAM PAPERS:
+
+- Extract individual questions.
+- Identify question numbers.
+- Identify marks.
+- Map each question to syllabus topics.
+- Store source paper and page number.
+- Estimate exam frequency using available papers.
+- Allow manual correction of incorrect mappings.
+
+Show topic coverage and exam frequency.
+
+Never invent exam importance when historical
+question-paper data is unavailable.
+
+==================================================
+8. RAG IMPLEMENTATION (MANDATORY)
+==================================================
+
+Implement a genuine Retrieval-Augmented
+Generation architecture.
+
+DOCUMENT INGESTION:
+
+1. Extract text from uploaded material.
+2. Split text into meaningful chunks.
+3. Preserve page and section metadata.
+4. Generate embeddings.
+5. Store vectors in pgvector.
+6. Index document metadata.
+
+RETRIEVAL:
+
+1. Receive a user query or topic.
+2. Generate its embedding.
+3. Search the user's authorized documents.
+4. Retrieve the most relevant chunks.
+5. Apply relevance thresholds.
+6. Optionally rerank results.
+7. Return source metadata.
+
+GENERATION:
+
+1. Send retrieved chunks to the LLM.
+2. Provide explicit instructions to use the
+   supplied context.
+3. Generate the required response.
+4. Validate structured output.
+5. Attach source citations.
+6. Check whether citations support the answer.
+
+RAG SECURITY:
+
+- Never search unrestricted global student documents.
+- Apply ownership and tenant filters during retrieval.
+- Do not trust instructions embedded in uploaded PDFs.
+- Treat document text as untrusted data.
+- Do not allow retrieved content to override
+  system instructions.
+- Do not generate unsupported citations.
+- Return an insufficient-evidence response when
+  retrieval confidence is too low.
+
+Clearly separate:
+
+RETRIEVAL = Finding information in uploaded materials.
+
+GENERATION = Creating questions and explanations
+using retrieved information.
+
+EVALUATION = Assessing student answers.
+
+ANALYSIS = Finding learning weaknesses.
+
+PLANNING = Converting weaknesses into revision tasks.
+
+Every generated question must retain its source
+document, page and section wherever available.
+
+==================================================
+9. AI DIAGNOSTIC QUIZ ENGINE
+==================================================
+
+Create an intelligent question-generation system.
+
+QUESTION TYPES:
+- Multiple-choice questions.
+- True or false.
+- Short answers.
+- Descriptive questions.
+
+DIFFICULTY:
+- Easy
+- Medium
+- Hard
+
+QUESTION GENERATION INPUT:
+
+- Selected subject.
+- Topic.
+- Subtopic.
+- Retrieved chunks.
+- Difficulty.
+- Number of questions.
+- Question type.
+
+QUESTION OUTPUT:
+
+- Question ID.
+- Question text.
+- Options when applicable.
+- Correct answer.
+- Explanation.
+- Topic ID.
+- Difficulty.
+- Marks.
+- Source document.
+- Source page.
+- Source section.
+- Source chunk reference.
+
+IMPORTANT:
+
+- Generate questions from retrieved content.
+- Never use unsupported model knowledge as source.
+- Verify generated answers against source content.
+- Validate question quality before saving.
+- Do not show correct answers before submission.
+- Avoid repeated questions in consecutive attempts.
+- Support randomized question ordering.
+
+QUIZ INTERFACE:
+
+- Start quiz.
+- Question navigation.
+- Timer when enabled.
+- Save answers.
+- Previous and next buttons.
+- Mark for review.
+- Submit confirmation.
+- Result page.
+- Detailed feedback.
+
+==================================================
+10. ANSWER EVALUATION ENGINE
+==================================================
+
+MULTIPLE-CHOICE:
+
+Use deterministic answer comparison.
+
+DESCRIPTIVE ANSWERS:
+
+Use an LLM with:
+- Student answer.
+- Retrieved reference content.
+- Expected answer.
+- Marking rubric.
+- Maximum marks.
+
+Return:
+- Marks obtained.
+- Correctness.
+- Missing concepts.
+- Incorrect concepts.
+- Explanation.
+- Improvement suggestions.
+
+Do not blindly trust the LLM's grading.
+Validate score ranges and output schemas.
+Allow teachers to review and override grades.
+
+Save every attempt and answer for historical
+performance analysis.
+
+==================================================
+11. KNOWLEDGE GAP ANALYSIS ENGINE
+==================================================
+
+THIS IS THE MOST IMPORTANT MODULE.
+
+Analyze student performance at topic and subtopic
+levels.
+
+For each topic calculate:
+
+- Questions attempted.
+- Correct answers.
+- Incorrect answers.
+- Accuracy.
+- Average marks.
+- Difficulty-adjusted performance.
+- Previous attempt performance.
+- Learning trend.
+- Evidence of misunderstanding.
+
+INITIAL CLASSIFICATION:
+
+Accuracy below 50% = WEAK
+Accuracy 50–79% = MEDIUM
+Accuracy 80–100% = STRONG
+
+These thresholds must be configurable.
+
+Require sufficient question evidence before
+assigning a confident mastery classification.
+
+GAP REPORT:
+
+RED:
+Weak topics requiring focused revision.
+
+YELLOW:
+Partially understood topics requiring practice.
+
+GREEN:
+Topics showing good understanding.
+
+Each report must include:
+
+- Topic name.
+- Mastery level.
+- Accuracy percentage.
+- Questions attempted.
+- Reason for weakness.
+- Common mistakes.
+- Suggested learning material.
+- Recommended practice.
+- Trend compared with previous attempts.
+
+Never fabricate a reason for a weakness.
+Use actual incorrect answers and their concepts
+as evidence.
+
+==================================================
+12. PERSONALIZED REVISION PLANNER
+==================================================
+
+Collect:
+
+- Examination date.
+- Available study days.
+- Daily study hours.
+- Preferred study time.
+- Subject priorities.
+
+Calculate a priority score using:
+
+Priority =
+0.6 * (1 - topic_accuracy)
++
+0.4 * exam_importance
+
+Both values must be normalized from 0 to 1.
+
+Create a revision schedule.
+
+Each task contains:
+
+- Date.
+- Topic.
+- Subtopic.
+- Duration.
+- Priority.
+- Recommended material.
+- Practice activity.
+- Completion status.
+
+PLANNER REQUIREMENTS:
+
+- Prioritize weak topics.
+- Consider examination importance.
+- Respect available study time.
+- Prevent scheduling beyond available hours.
+- Include practice and revision.
+- Allow manual task editing.
+- Allow task completion.
+- Recalculate after new quiz attempts.
+
+Do not discard the old plan.
+Keep revision plan history.
+
+==================================================
+13. EXPLAIN-TOPIC AI ASSISTANT
+==================================================
+
+Create a contextual learning assistant.
+
+Students can ask:
+
+- Explain inheritance.
+- Explain SQL joins.
+- Give an example from my notes.
+- Explain why my answer was wrong.
+- Summarize this chapter.
+- Give me practice questions.
+
+RULES:
+
+- Use the student's uploaded materials.
+- Retrieve relevant content before answering.
+- Show citations.
+- Do not pretend outside information came
+  from the student's textbook.
+- Clearly state when information is unavailable.
+- Maintain subject and topic context.
+- Keep chat history private.
+
+==================================================
+14. STUDENT DASHBOARD
+==================================================
+
+Create an interactive dashboard showing:
+
+- Total subjects.
+- Uploaded documents.
+- Completed diagnostic quizzes.
+- Overall performance.
+- Weak topics count.
+- Medium topics count.
+- Strong topics count.
+- Current revision plan.
+- Study progress.
+- Recent activities.
+
+CHARTS:
+
+1. Overall performance trend.
+2. Topic-wise mastery.
+3. Weakness distribution.
+4. Quiz score comparison.
+5. Revision completion.
+6. Subject-level progress.
+
+All dashboard information must come from
+the authenticated student's database records.
+
+Do not use hardcoded demo values in production.
+
+==================================================
+15. TEACHER DASHBOARD
+==================================================
+
+Create a separate teacher experience.
+
+Features:
+
+- Create class.
+- Invite students.
+- Manage enrollment.
+- View class-level topic mastery.
+- Identify commonly weak topics.
+- View authorized student progress.
+- Assign diagnostic tests.
+- Review descriptive answers.
+- Export class reports.
+
+Privacy rules:
+
+- Teachers cannot view unrelated students.
+- Students must explicitly join or be invited.
+- Only authorized class members can be analyzed.
+- Provide appropriate student and parent consent
+  workflows where required.
+
+==================================================
+16. ADMIN DASHBOARD
+==================================================
+
+Create a protected admin panel.
+
+Features:
+
+- User management.
+- Role management.
+- Account status management.
+- Platform usage statistics.
+- Document processing monitoring.
+- AI API usage monitoring.
+- Error monitoring.
+- Security event logs.
+- Storage usage.
+- Rate-limit monitoring.
+
+Protect admin routes with backend authorization.
+
+Never rely only on hiding admin UI elements.
+
+==================================================
+17. DATABASE ARCHITECTURE
+==================================================
+
+Use PostgreSQL and pgvector.
+
+Create relational tables:
+
+1. users
+2. user_sessions
+3. roles
+4. subjects
+5. classes
+6. class_memberships
+7. documents
+8. document_chunks
+9. topics
+10. questions
+11. question_topic_mappings
+12. quizzes
+13. quiz_questions
+14. quiz_attempts
+15. student_answers
+16. topic_mastery
+17. revision_plans
+18. revision_tasks
+19. chat_sessions
+20. chat_messages
+21. audit_logs
+22. notifications
+
+DATABASE REQUIREMENTS:
+
+- Primary keys.
+- Foreign keys.
+- Appropriate indexes.
+- Unique constraints.
+- Created and updated timestamps.
+- Transaction management.
+- Database migrations.
+- Soft deletion where appropriate.
+- Tenant and ownership boundaries.
+- Historical performance retention.
+
+Use database-level Row-Level Security (RLS)
+where appropriate as an additional protection.
+
+Never depend only on frontend filtering.
+
+==================================================
+18. COMPLETE API DEVELOPMENT
+==================================================
+
+AUTH:
+POST /api/v1/auth/register
+POST /api/v1/auth/login
+POST /api/v1/auth/logout
+POST /api/v1/auth/forgot-password
+POST /api/v1/auth/reset-password
+GET  /api/v1/auth/me
+
+DOCUMENTS:
+POST /api/v1/materials/upload
+GET  /api/v1/materials
+GET  /api/v1/materials/{id}
+DELETE /api/v1/materials/{id}
+POST /api/v1/materials/{id}/reprocess
+
+TOPICS:
+POST /api/v1/topics/generate
+GET  /api/v1/topics
+GET  /api/v1/topics/{id}
+
+QUIZZES:
+POST /api/v1/quizzes/generate
+GET  /api/v1/quizzes
+GET  /api/v1/quizzes/{id}
+POST /api/v1/quizzes/{id}/submit
+GET  /api/v1/quizzes/{id}/results
+
+ANALYSIS:
+GET  /api/v1/analysis/gaps
+GET  /api/v1/analysis/mastery
+GET  /api/v1/analysis/history
+
+REVISION:
+POST /api/v1/revision/generate
+GET  /api/v1/revision
+PATCH /api/v1/revision/tasks/{id}
+GET  /api/v1/revision/history
+
+AI ASSISTANT:
+POST /api/v1/assistant/explain
+GET  /api/v1/assistant/history
+
+PROGRESS:
+GET /api/v1/progress/dashboard
+GET /api/v1/progress/subjects
+GET /api/v1/progress/trends
+
+TEACHER:
+POST /api/v1/classes
+POST /api/v1/classes/{id}/invite
+GET  /api/v1/classes/{id}/analytics
+
+ADMIN:
+GET /api/v1/admin/users
+GET /api/v1/admin/analytics
+GET /api/v1/admin/audit-logs
+
+All APIs must validate authentication,
+authorization, request schemas and ownership.
+
+Use pagination for list endpoints.
+
+Use appropriate HTTP status codes.
+
+Never return internal stack traces or secrets.
+
+==================================================
+19. SECURITY REQUIREMENTS
+==================================================
+
+Security is mandatory.
+
+A. AUTHENTICATION SECURITY
+
+- Argon2id password hashing.
+- Secure cookies.
+- Session expiration.
+- Login rate limiting.
+- Brute-force protection.
+- Email verification.
+- Password reset protection.
+- Optional MFA for administrators.
+
+B. APPLICATION SECURITY
+
+- Prevent SQL injection.
+- Prevent XSS.
+- Prevent CSRF.
+- Prevent IDOR.
+- Prevent insecure direct object references.
+- Validate all user input.
+- Escape untrusted content.
+- Restrict CORS to approved origins.
+- Apply security headers.
+- Prevent privilege escalation.
+- Enforce server-side RBAC.
+
+C. DOCUMENT SECURITY
+
+- Validate file extension and actual file type.
+- Limit upload sizes and page counts.
+- Rename files using generated identifiers.
+- Store uploads outside public web directories.
+- Use private object storage.
+- Use short-lived signed download URLs.
+- Scan files for malware.
+- Protect against malicious PDF content.
+- Treat uploaded text as untrusted input.
+- Prevent prompt injection through documents.
+
+D. DATABASE SECURITY
+
+- Use parameterized SQL.
+- Apply least-privilege database accounts.
+- Encrypt network connections.
+- Use database backups.
+- Restrict production database access.
+- Enable appropriate RLS policies.
+- Prevent cross-user data access.
+
+E. API SECURITY
+
+- Rate limit sensitive endpoints.
+- Apply request size limits.
+- Validate API tokens.
+- Protect API documentation in production
+  when necessary.
+- Add timeouts to AI requests.
+- Prevent excessive concurrent jobs.
+- Protect against resource exhaustion.
+
+F. SECRET MANAGEMENT
+
+Never expose:
+- OpenAI API keys.
+- Database credentials.
+- JWT/session secrets.
+- Storage access keys.
+- Redis passwords.
+
+Store secrets in environment variables or
+a managed secrets service.
+
+Do not commit .env files to GitHub.
+
+G. PRIVACY
+
+- Collect only necessary personal data.
+- Provide account deletion.
+- Provide document deletion.
+- Provide clear privacy information.
+- Restrict teacher visibility.
+- Do not use private student documents to
+  train external models without explicit,
+  informed permission.
+- Follow applicable Indian data-protection
+  requirements, including the DPDP framework
+  and rules in force.
+
+==================================================
+20. HOW MANY USERS CAN ACCESS THE WEBSITE?
+==================================================
+
+Build the application to support concurrent
+multi-user access.
+
+Do not hardcode a user limit.
+
+Use scalable architecture:
+
+- Stateless API servers.
+- Horizontal backend scaling.
+- Managed PostgreSQL.
+- Database connection pooling.
+- Redis caching.
+- Background workers.
+- Queue-based document processing.
+- Object storage for uploaded files.
+- CDN for static assets.
+- Rate limits per user.
+- AI token and spending limits.
+- Monitoring and autoscaling.
+
+Separate resource-heavy AI document processing
+from normal website API requests.
+
+Provide configurable limits for:
+
+- Users per account or organization.
+- File size.
+- Total storage.
+- Documents per user.
+- Quiz generation requests.
+- AI requests per minute.
+- Concurrent background jobs.
+
+IMPORTANT CAPACITY REQUIREMENT:
+
+Create a load-testing plan for:
+- 10 concurrent users.
+- 50 concurrent users.
+- 100 concurrent users.
+- 500 concurrent users.
+- 1,000 concurrent users.
+
+Measure:
+- Response time.
+- Requests per second.
+- Error percentage.
+- CPU usage.
+- Memory usage.
+- Database connections.
+- Background queue latency.
+- AI API latency.
+
+Do not claim the application supports 1,000
+or more simultaneous users until load testing
+demonstrates that capacity on the deployed
+infrastructure.
+
+Generate a capacity report with recommended
+server sizes and scaling configurations.
+
+==================================================
+21. PERFORMANCE AND RELIABILITY
+==================================================
+
+- Use pagination.
+- Use database indexes.
+- Cache suitable read-heavy data.
+- Optimize database queries.
+- Compress API responses when appropriate.
+- Use background jobs for document processing.
+- Implement retries with exponential backoff.
+- Avoid duplicate processing jobs.
+- Use idempotency for critical operations.
+- Add health-check endpoints.
+- Add structured logging.
+- Monitor exceptions.
+- Configure backup and restore procedures.
+- Use appropriate database transactions.
+
+Do not block normal student navigation while
+large documents are being processed.
+
+==================================================
+22. TESTING AND QUALITY ASSURANCE
+==================================================
+
+Create:
+
+UNIT TESTS:
+- Authentication.
+- Authorization.
+- Document extraction.
+- Chunking.
+- Retrieval.
+- Question generation.
+- Answer evaluation.
+- Gap analysis.
+- Revision planning.
+
+INTEGRATION TESTS:
+- Registration to login.
+- PDF upload to vector storage.
+- Retrieval with citations.
+- Quiz generation and submission.
+- Gap report generation.
+- Revision plan updates.
+
+SECURITY TESTS:
+- Cross-user access attempts.
+- Unauthorized API requests.
+- IDOR attempts.
+- SQL injection.
+- XSS.
+- CSRF.
+- Malicious file upload.
+- Prompt injection.
+- Privilege escalation.
+- Rate-limit bypass.
+
+END-TO-END TEST:
+
+1. Register a new student.
+2. Log in.
+3. Upload a real syllabus.
+4. Upload textbook notes.
+5. Upload past exam papers.
+6. Wait for processing.
+7. Verify topic mapping.
+8. Generate diagnostic quiz.
+9. Submit answers.
+10. View evaluation.
+11. View gap report.
+12. Generate revision plan.
+13. Study a weak topic.
+14. Take another quiz.
+15. Verify the updated mastery report.
+16. Verify the updated revision plan.
+17. Log out and log back in.
+18. Verify saved data is still available.
+
+Every major feature must have tests.
+
+==================================================
+23. DEPLOYMENT AND DEVOPS
+==================================================
+
+Create separate environments:
+
+- Local development.
+- Staging.
+- Production.
+
+Use Docker for backend services.
+
+Create:
+
+- Dockerfile for frontend if needed.
+- Dockerfile for backend.
+- Docker Compose for local services.
+- Production environment configuration.
+- Database migration process.
+- GitHub Actions workflow.
+- Automated test execution.
+- Build verification.
+- Deployment pipeline.
+
+DEPLOYMENT:
+
+Frontend:
+Vercel
+
+Backend:
+Render / AWS
+
+Database:
+Managed PostgreSQL + pgvector
+
+Cache:
+Managed Redis
+
+Documents:
+Private S3-compatible storage
+
+Set up:
+- Custom domain.
+- HTTPS.
+- Production secrets.
+- Database backups.
+- Error monitoring.
+- Health checks.
+- Deployment rollback process.
+
+Create a complete deployment guide.
+
+==================================================
+24. DEMO ACCOUNTS
+==================================================
+
+Prepare three demo roles:
+
+STUDENT:
+student.demo@example.com
+
+TEACHER:
+teacher.demo@example.com
+
+ADMIN:
+admin.demo@example.com
+
+Create demo passwords securely during
+development or deployment.
+
+Never hardcode production passwords.
+Never commit demo credentials with real
+administrative privileges.
+
+Seed realistic demonstration data:
+
+- Computer Science syllabus.
+- Java notes.
+- SQL notes.
+- Previous exam questions.
+- Sample quizzes.
+- Sample student attempts.
+- Sample gap reports.
+- Revision plan.
+
+Display demo login instructions in README.
+
+==================================================
+25. DOCUMENTATION
+==================================================
+
+Generate:
+
+README.md
+- Project overview.
+- Features.
+- Technology stack.
+- Architecture.
+- Installation.
+- Local development.
+- Environment variables.
+- Database setup.
+- Migration instructions.
+- API documentation.
+- Deployment instructions.
+- Demo credentials setup.
+
+Also create:
+
+- SECURITY.md
+- CONTRIBUTING.md
+- .env.example
+- Dockerfile
+- docker-compose.yml
+- API documentation.
+- Database ER diagram.
+- Architecture diagram.
+- Testing instructions.
+- Capacity and load-testing report.
+
+==================================================
+26. DEVELOPMENT EXECUTION RULES
+==================================================
+
+Do not attempt to generate the entire project
+as one untested code dump.
+
+Build in the following stages:
+
+STAGE 1:
+Project setup, frontend, backend and database.
+
+STAGE 2:
+Authentication and role-based permissions.
+
+STAGE 3:
+Document upload and PDF extraction.
+
+STAGE 4:
+Chunking, embeddings and RAG retrieval.
+
+STAGE 5:
+Syllabus topic mapping.
+
+STAGE 6:
+AI diagnostic question generation.
+
+STAGE 7:
+Answer evaluation.
+
+STAGE 8:
+Knowledge gap analysis.
+
+STAGE 9:
+Personalized revision planning.
+
+STAGE 10:
+Student and teacher dashboards.
+
+STAGE 11:
+Explain-topic assistant.
+
+STAGE 12:
+Security hardening and testing.
+
+STAGE 13:
+Load testing and performance optimization.
+
+STAGE 14:
+Production deployment and documentation.
+
+For every stage:
+
+1. Explain what will be implemented.
+2. Create actual source files.
+3. Connect frontend and backend.
+4. Connect database.
+5. Run tests.
+6. Fix errors.
+7. Verify functionality.
+8. Update documentation.
+9. Show completed features.
+10. Move to the next stage.
+
+Do not skip stages.
+
+Do not use fake API responses in production.
+
+Do not leave buttons without functionality.
+
+Do not claim a feature is complete unless it
+has been implemented and tested.
+
+If an external API key or service connection
+is missing, implement the integration safely,
+document the required configuration and
+clearly identify the unavailable functionality.
+
+==================================================
+27. FINAL ACCEPTANCE CRITERIA
+==================================================
+
+The project is complete only when:
+
+[ ] Registration and login work.
+[ ] Student, teacher and admin roles work.
+[ ] Multiple users can access simultaneously.
+[ ] User data is isolated.
+[ ] PDF and TXT uploads work.
+[ ] PDF text extraction works.
+[ ] Topic mapping works.
+[ ] Past-paper mapping works.
+[ ] Embeddings are stored.
+[ ] RAG retrieval works.
+[ ] Citations point to real sources.
+[ ] AI questions are source-grounded.
+[ ] Quiz submission works.
+[ ] Answer evaluation works.
+[ ] Knowledge gap report works.
+[ ] Revision planner works.
+[ ] Revision plan updates after re-testing.
+[ ] Explain-topic assistant works.
+[ ] Progress dashboard uses real data.
+[ ] Teacher class analytics work.
+[ ] Admin management works.
+[ ] Security tests pass.
+[ ] Automated tests pass.
+[ ] Load tests are documented.
+[ ] Production deployment works.
+[ ] Documentation is complete.
+
+FINAL EXPECTATION:
+
+Deliver a complete, responsive, secure,
+multi-user AI learning SaaS platform.
+
+The product must demonstrate the entire
+learning diagnosis cycle:
+
+UPLOAD → RETRIEVE → TEST → EVALUATE →
+DIAGNOSE → PLAN → REVISE → RETEST.
+
+The most important requirement is that
+GapFinder AI must genuinely discover what
+the student does not know and help the student
+improve through measurable learning outcomes.
